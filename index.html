@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="hy">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>CRYPTOLAB — Գաղտնագրերի թվային աշխարհ</title>
+<style>
+:root{--bg:#07111f;--panel:#101e31;--panel2:#13243a;--line:#263a54;--text:#edf5ff;--muted:#9eb0c7;--cyan:#42e8d1;--blue:#6da8ff;--gold:#ffc76b;--danger:#ff7777}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% 0%,#102a45 0,transparent 35%),var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit}button{cursor:pointer}
+.wrap{width:min(1160px,92%);margin:auto}.top{position:sticky;top:0;z-index:20;background:#07111feF;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}.brand{font-weight:900;letter-spacing:2px;color:var(--cyan);font-size:1.2rem}.navlinks{display:flex;gap:20px;color:var(--muted);font-size:.92rem}.navlinks a:hover{color:var(--cyan)}.menu{display:none;background:none;border:1px solid var(--line);color:white;border-radius:10px;padding:7px 11px}
+.hero{padding:28px 0 38px}.slides{position:relative;overflow:hidden;border:1px solid #2c4966;border-radius:25px;min-height:440px;background:#0c1a2b;box-shadow:0 24px 70px #0006}
+.slide{position:absolute;inset:0;padding:clamp(25px,6vw,70px);display:flex;flex-direction:column;justify-content:center;opacity:0;transition:opacity .8s;background:linear-gradient(110deg,#07111ff2,#07111f9c 55%,#07111f55)}
+.slide.active{opacity:1}.slide:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 75% 45%,#1f7890aa,transparent 33%),linear-gradient(135deg,#0c2039,#07111f 65%)}
+.slide:nth-child(2):before{background:radial-gradient(circle at 75% 40%,#5b3d91aa,transparent 34%),linear-gradient(135deg,#171b3b,#07111f 70%)}
+.slide:nth-child(3):before{background:radial-gradient(circle at 75% 40%,#176b54aa,transparent 34%),linear-gradient(135deg,#0b2a2b,#07111f 70%)}
+.slide h1{font-size:clamp(2.1rem,5.8vw,4.5rem);line-height:1.08;max-width:800px;margin:14px 0}.slide p{color:#c4d4e7;max-width:650px}.eyebrow{color:var(--cyan);font-weight:800;letter-spacing:3px;text-transform:uppercase;font-size:.78rem}
+.code-art{position:absolute;right:4%;top:12%;width:38%;height:75%;display:grid;place-content:center;gap:12px;color:#8dfbea88;font:clamp(.8rem,2vw,1.4rem) monospace;text-align:center;transform:rotate(-7deg);text-shadow:0 0 18px #42e8d177;pointer-events:none}
+.dots{display:flex;gap:8px;position:absolute;bottom:20px;left:50%;transform:translateX(-50%)}.dots button{width:9px;height:9px;padding:0;border:0;border-radius:50%;background:#71839a}.dots button.on{background:var(--cyan);width:25px;border-radius:9px}
+.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:800;background:linear-gradient(100deg,var(--cyan),#70baff);color:#07111f}.btn.secondary{background:#1b3049;color:var(--text);border:1px solid var(--line)}.btn:disabled{opacity:.45;cursor:not-allowed}
+section{padding:34px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}.section-head h2{margin:0;font-size:clamp(1.5rem,3vw,2.2rem)}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.card{background:linear-gradient(145deg,#12243a,#0d1a2b);border:1px solid var(--line);border-radius:20px;padding:22px;min-width:0}.card h3{margin:0 0 14px}.field{display:grid;gap:7px;margin:13px 0}.field label{font-weight:700;color:#c9d8e9}.field textarea,.field input,.field select{width:100%;background:#071421;color:var(--text);border:1px solid #30465f;border-radius:12px;padding:12px;outline:none}.field textarea{min-height:135px;resize:vertical}.field textarea:focus,.field input:focus,.field select:focus{border-color:var(--cyan)}
+.row{display:flex;gap:10px;flex-wrap:wrap}.result{min-height:135px;white-space:pre-wrap;overflow-wrap:anywhere;background:#06101b;border:1px dashed #3c607d;border-radius:12px;padding:14px;font: .95rem/1.7 ui-monospace,monospace;color:#9ff7e6}
+.hint{font-size:.86rem;color:var(--muted)}.keybox{display:none}.keybox.show{display:block}.notice{border-left:3px solid var(--gold);padding:10px 13px;background:#2a2418;color:#f8dfae;border-radius:8px;font-size:.88rem;margin-top:12px}
+.methods{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.method{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:17px}.method b{color:var(--cyan);display:block;margin-bottom:5px}
+.alphabet-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.table-wrap{overflow:auto;max-height:330px;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;width:100%;min-width:260px}th,td{text-align:left;padding:8px 11px;border-bottom:1px solid #25384e;font-family:ui-monospace,monospace}th{color:var(--cyan);position:sticky;top:0;background:#12243a}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{background:#081522;border:1px solid var(--line);padding:17px;border-radius:14px}.stat strong{display:block;font-size:2rem;color:var(--cyan)}.admin{display:none}.admin.open{display:block}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:.9rem;margin-top:30px}
+@media(max-width:760px){.navlinks{display:none;position:absolute;top:68px;left:0;right:0;padding:18px 4%;background:#07111f;border-bottom:1px solid var(--line);flex-direction:column}.navlinks.open{display:flex}.menu{display:block}.slides{min-height:470px}.code-art{width:90%;right:5%;top:5%;height:40%;font-size:.9rem;opacity:.55}.slide{justify-content:flex-end;padding-bottom:65px}.grid,.alphabet-grid{grid-template-columns:1fr}.methods{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.section-head{align-items:start;flex-direction:column}}
+@media print{body{background:white!important;color:#111!important}body>header,body>footer,main>.hero,main>section:not(#tool){display:none!important}#tool{display:block!important;padding:0!important}#tool>.wrap{width:100%!important;margin:0!important}#tool>.wrap>.section-head,#tool .grid>.card:not(#printArea){display:none!important}#tool .grid{display:block!important}#printArea{display:block!important;width:100%!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:white!important;box-shadow:none!important;color:#111!important}#printArea>*:not(#result){display:none!important}#result{display:block!important;min-height:0!important;padding:0!important;border:0!important;border-radius:0!important;background:white!important;color:#111!important;font:12pt/1.5 system-ui,sans-serif!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important}.no-print{display:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap nav">
+<a class="brand" href="#">CRYPTOLAB<span style="color:#fff">.</span></a>
+<nav class="navlinks" id="navlinks"><a href="#tool">Փոխակերպիչ</a><a href="#methods">Համակարգեր</a><a href="#alphabets">Այբուբեններ</a><a href="#admin">Ադմին</a></nav>
+<button class="menu" id="menuBtn" aria-label="Բացել ցանկը">☰</button>
+</div></header>
+<main>
+<div class="wrap hero">
+<div class="slides" aria-label="Գաղտնագրերի սլայդշոու">
+<div class="slide active"><span class="eyebrow">Welcome to the digital cipher world</span><h1>Բարի գալուստ<br>գաղտնագրերի թվային աշխարհ</h1><p>Բացահայտիր կոդավորման պատմությունը, փորձարկիր տարբեր համակարգեր և սովորիր, թե ինչպես են հաղորդագրությունները փոխակերպվում։</p><a class="btn" href="#tool" style="width:max-content">Սկսել հիմա</a><div class="code-art">-... .- .-. . ...-<br>01000011 01010010<br>01011001 01010000<br>01010100 01001111</div></div>
+<div class="slide"><span class="eyebrow">Encode · Decode · Explore</span><h1>Մեկ հաղորդագրություն։<br>Բազմաթիվ կոդեր։</h1><p>Մորզե, երկուական կոդ, Base64, դասական գաղտնագրեր և ժամանակակից AES-GCM։</p><div class="code-art">.-.. --- ...- .<br>01001001 01001110<br>U0VDUkVU<br> AES-256-GCM</div></div>
+<div class="slide"><span class="eyebrow">Privacy by design</span><h1>Քո հաղորդագրությունը<br>մնում է քո սարքում։</h1><p>Այս ցուցադրական տարբերակում փոխակերպումները կատարվում են դիտարկչում։ Հաղորդագրությունները սերվեր չեն ուղարկվում և չեն պահպանվում կայքում։</p><div class="code-art">LOCAL ONLY<br>NO MESSAGE LOGS<br>PBKDF2 + AES-GCM</div></div>
+<div class="dots"><button class="on" aria-label="Սլայդ 1"></button><button aria-label="Սլայդ 2"></button><button aria-label="Սլայդ 3"></button></div>
+</div>
+</div>
+
+<section id="tool"><div class="wrap">
+<div class="section-head"><div><span class="eyebrow">Online tool</span><h2>Հաղորդագրության փոխակերպիչ</h2><div class="muted">Գրիր տեքստը, ընտրիր համակարգը և ստացիր արդյունքը։</div></div></div>
+<div class="grid">
+<div class="card">
+<div class="field"><label for="message">Քո հաղորդագրությունը</label><textarea id="message" lang="hy" placeholder="Գրիր հաղորդագրություն հայերեն, անգլերեն կամ այլ լեզվով..."></textarea></div>
+<div class="field"><label for="method">Փոխակերպման համակարգը</label><select id="method">
+<option value="morse">Մորզե (լատինատառ և հայերեն)</option><option value="binary">Երկուական կոդ (UTF-8)</option><option value="base64">Base64 (UTF-8)</option><option value="caesar">Caesar Cipher (լատինատառ և հայերեն)</option><option value="atbash">Atbash (անգլերեն)</option><option value="aes">AES-256-GCM (գաղտնագրում)</option>
+</select></div>
+<div class="field keybox" id="shiftBox"><label for="shift">Caesar տեղաշարժ (0–38)</label><input id="shift" type="number" min="0" max="38" value="3"></div>
+<div class="field keybox" id="passwordBox"><label for="password">Գաղտնաբառ (AES-ի համար)</label><input id="password" type="password" autocomplete="new-password" placeholder="Օգտագործիր երկար, եզակի գաղտնաբառ"></div>
+<div class="row"><button class="btn" id="encodeBtn">Կոդավորել / Գաղտնագրել</button><button class="btn secondary" id="decodeBtn">Ապակոդավորել / Վերծանել</button></div>
+<p class="hint">Վերծանելու համար ընտրիր նույն մեթոդը, տեղադրիր կոդավորված տեքստը մուտքի դաշտում և սեղմիր «Ապակոդավորել / Վերծանել»։ Արդյունքը կարող ես մուտքի դաշտ տեղափոխել ներքևի կոճակով։</p>
+<p class="hint" id="methodHint">Մորզեն այստեղ աջակցում է լատինատառ և հայերեն տառերին։</p>
+</div>
+<div class="card" id="printArea">
+<h3>Արդյունք</h3><div class="result" id="result" aria-live="polite">Արդյունքն այստեղ կհայտնվի…</div>
+<div class="row no-print" style="margin-top:14px"><button class="btn secondary" id="copyBtn">Պատճենել</button><button class="btn secondary" id="useResultBtn" disabled>Արդյունքը տեղադրել մուտքի դաշտում</button><button class="btn secondary" id="pdfBtn">Արտահանել PDF</button><button class="btn secondary" id="clearBtn">Մաքրել</button></div>
+<div class="notice">Գաղտնիության նշում․ հաղորդագրության տեքստը չի ուղարկվում սերվեր։ Սակայն սա դեռ տեղակայված, անկախ անվտանգության աուդիտ անցած ծառայություն չէ։</div>
+</div>
+</div></div></section>
+
+<section id="methods"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Learn</span><h2>Կոդավորման և գաղտնագրման համակարգեր</h2></div></div>
+<div class="methods">
+<div class="method"><b>Մորզեի կոդ</b><span class="muted">Տառերն ու թվերը ներկայացվում են կետերով և գծերով։</span></div>
+<div class="method"><b>Binary / UTF-8</b><span class="muted">Տվյալները ներկայացվում են 0 և 1 բիթերով։</span></div>
+<div class="method"><b>Base64</b><span class="muted">Տվյալների ներկայացման ձևաչափ է, ոչ գաղտնագրում։</span></div>
+<div class="method"><b>Caesar Cipher</b><span class="muted">Անգլերեն այբուբենի տառերի պարզ տեղաշարժ։</span></div>
+<div class="method"><b>Atbash</b><span class="muted">Անգլերեն այբուբենի հակադարձ փոխարինում։</span></div>
+<div class="method"><b>AES-256-GCM</b><span class="muted">Գաղտնաբառից ստացված բանալիով ժամանակակից սիմետրիկ գաղտնագրում։</span></div>
+</div></div></section>
+
+<section id="alphabets"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Reference tables</span><h2>Գաղտնագրերի այբուբեններ և աղյուսակներ</h2><div class="muted">Համապատասխանեցումները տեսնելու և սովորելու համար։</div></div></div>
+<div class="alphabet-grid">
+<div class="card"><h3>Մորզեի միջազգային այբուբեն</h3><div class="table-wrap"><table id="morseTable"><thead><tr><th>Նիշ</th><th>Մորզե</th></tr></thead><tbody></tbody></table></div></div>
+<div class="card"><h3>Հայերեն Մորզե (կայքի ընդլայնում)</h3><div class="table-wrap"><table id="armenianMorseTable"><thead><tr><th>Նիշ</th><th>Մորզե</th></tr></thead><tbody></tbody></table></div></div>
+<div class="card"><h3>ASCII / Binary (անգլերեն A–Z)</h3><div class="table-wrap"><table id="binaryTable"><thead><tr><th>Տառ</th><th>Տասնորդական</th><th>Երկուական</th></tr></thead><tbody></tbody></table></div></div>
+</div>
+<p class="hint">Հայերեն տեքստը մշակվում է Unicode/UTF-8 ձևաչափով։ Հայերեն Մորզեի համապատասխանեցումը կայքի սեփական, հետադարձելի ընդլայնումն է, ոչ թե միջազգային ստանդարտ։ Հայերեն մեծատառերն ու փոքրատառերը պահպանվում են։</p>
+</div></section>
+
+<section id="admin"><div class="wrap">
+<div class="section-head"><div><span class="eyebrow">Private dashboard</span><h2>Ադմին վահանակ</h2><div class="muted">Վիճակագրություն՝ այս դիտարկչի տեղային տվյալներից։</div></div></div>
+<div class="card">
+<div id="adminLogin"><div class="field"><label for="adminCode">Ադմինի գաղտնաբառը</label><input id="adminCode" type="password" autocomplete="current-password" placeholder="Մուտքագրիր գաղտնաբառը"></div><button class="btn" id="loginBtn">Մուտք գործել</button></div>
+<div class="admin" id="adminPanel"><div class="stats"><div class="stat"><span class="muted">Այցելություններ</span><strong id="visits">0</strong></div><div class="stat"><span class="muted">Փոխակերպումներ</span><strong id="operations">0</strong></div><div class="stat"><span class="muted">Այս դիտարկչի տվյալներ</span><strong>Local</strong></div></div>
+<p class="hint">Վիճակագրությունը պահվում է միայն այս սարքի localStorage-ում։ Այլ այցելուների ընդհանուր վիճակագրություն տեսնելու համար պետք է անվտանգ սերվերային անալիտիկա՝ առանց հաղորդագրությունների բովանդակության։</p><button class="btn secondary" id="logoutBtn">Ելք</button></div>
+<div class="notice">Անվտանգության կարևոր զգուշացում․ այս ստատիկ դեմո կայքի Մորզե կոդով ադմին մուտքը պաշտպանություն ՉԷ․ կոդը տեսանելի է կայքի ֆայլում։ Իրական հրապարակային կայքում պետք է սերվերային նույնականացում, սահմանափակված ադմին հասանելիություն, HTTPS և անվտանգ վիճակագրական պահոց։</div>
+</div></div></section>
+</main>
+<footer><div class="wrap">CRYPTOLAB · Կրթական և փորձնական նախագիծ · Գաղտնիության սկզբունք՝ հաղորդագրության բովանդակությունը չպահպանել։</div></footer>
+<script>
+const morse={A:".-",B:"-...",C:"-.-.",D:"-..",E:".",F:"..-.",G:"--.",H:"....",I:"..",J:".---",K:"-.-",L:".-..",M:"--",N:"-.",O:"---",P:".--.",Q:"--.-",R:".-.",S:"...",T:"-",U:"..-",V:"...-",W:".--",X:"-..-",Y:"-.--",Z:"--..","0":"-----","1":".----","2":"..---","3":"...--","4":"....-","5":".....","6":"-....","7":"--...","8":"---..","9":"----."};
+const alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const armenianUpper=[..."ԱԲԳԴԵԶԷԸԹԺԻԼԽԾԿՀՁՂՃՄՅՆՇՈՉՊՋՌՍՎՏՐՑՒՓՔՕՖ"];
+const armenianLower=[...armenianUpper.map(c=>c.toLowerCase()),"և"];
+const $=id=>document.getElementById(id);
+const enc=new TextEncoder(), dec=new TextDecoder("utf-8",{fatal:true});
+let visits=Number(localStorage.getItem("cl_visits")||0)+1;localStorage.setItem("cl_visits",visits);
+function countOp(){localStorage.setItem("cl_ops",Number(localStorage.getItem("cl_ops")||0)+1)}
+const morsePunctuation={",":"--..--",".":".-.-.-","։":".......-", "?":"..--..","!":"-.-.--",":":"---...",";":"-.-.-.","'":".----.","-":"-....-","(":"-.--.",")":"-.--.-","&":".-...","=":"-...-","+":".-.-.","_":"..--.-",'"':".-..-.","@":".--.-.","/":"-..-."};
+const armenianMorse=Object.fromEntries([
+  ...armenianLower.map((c,i)=>[c,i]),
+  ...armenianUpper.map((c,i)=>[c,i+armenianLower.length]),
+  ["։",armenianLower.length+armenianUpper.length]
+].map(([c,i])=>[c,Number(i).toString(2).padStart(7,"0").replace(/0/g,".").replace(/1/g,"-")]));
+function morseEncode(s){return [...s].map(c=>{if(c===" ")return "/";if(armenianMorse[c])return armenianMorse[c];if(morse[c.toUpperCase()])return morse[c.toUpperCase()];if(morsePunctuation[c])return morsePunctuation[c];throw Error(`Մորզեն չի աջակցում «${c}» նիշը։`)}).join(" ")}
+function morseDecode(s){const rev=Object.fromEntries([...Object.entries(morse).map(([k,v])=>[v,k]),...Object.entries(morsePunctuation).map(([k,v])=>[v,k]),...Object.entries(armenianMorse).map(([k,v])=>[v,k])]);return s.trim().split(/\s*\/\s*/).map(w=>w.trim().split(/\s+/).filter(Boolean).map(x=>{if(!rev[x])throw Error(`Մորզեի «${x}» կոդը ճանաչված չէ։`);return rev[x]}).join("")).join(" ")}
+function b64encode(s){let bytes=enc.encode(s),bin="";bytes.forEach(b=>bin+=String.fromCharCode(b));return btoa(bin)}
+function b64decode(s){let bin=atob(s.trim()),bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return dec.decode(bytes)}
+function binaryEncode(s){return [...enc.encode(s)].map(b=>b.toString(2).padStart(8,"0")).join(" ")}
+function binaryDecode(s){let parts=s.trim().split(/\s+/);if(!parts.every(x=>/^[01]{8}$/.test(x)))throw Error("Երկուական կոդը պետք է լինի 8-բիթանոց խմբերով՝ բացատներով։");return dec.decode(new Uint8Array(parts.map(x=>parseInt(x,2))))}
+function rotateInAlphabet(c,chars,shift,reverse){let i=chars.indexOf(c);if(i<0)return null;return chars[(i+((shift%chars.length)*(reverse?-1:1)+chars.length))%chars.length]}
+function caesar(s,n,reverse=false){return [...s].map(c=>{let shifted=rotateInAlphabet(c,armenianLower,n,reverse);if(shifted!==null)return shifted;shifted=rotateInAlphabet(c,armenianUpper,n,reverse);if(shifted!==null)return shifted;let x=c.charCodeAt(0);if(x>=65&&x<=90)return String.fromCharCode((x-65+((n%26)*(reverse?-1:1)+26))%26+65);if(x>=97&&x<=122)return String.fromCharCode((x-97+((n%26)*(reverse?-1:1)+26))%26+97);return c}).join("")}
+function atbash(s){return [...s].map(c=>{let x=c.charCodeAt(0);if(x>=65&&x<=90)return String.fromCharCode(90-(x-65));if(x>=97&&x<=122)return String.fromCharCode(122-(x-97));return c}).join("")}
+async function deriveKey(password,salt){const base=await crypto.subtle.importKey("raw",enc.encode(password),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:250000,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])}
+function toB64(bytes){let bin="";bytes.forEach(b=>bin+=String.fromCharCode(b));return btoa(bin)}
+function fromB64(s){let bin=atob(s.trim());return Uint8Array.from(bin,c=>c.charCodeAt(0))}
+async function aesEncrypt(s,pw){if(!pw)throw Error("AES-ի համար մուտքագրիր գաղտնաբառ։");let salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await deriveKey(pw,salt),ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,enc.encode(s));return "CL1."+toB64(salt)+"."+toB64(iv)+"."+toB64(new Uint8Array(ct))}
+async function aesDecrypt(s,pw){if(!pw)throw Error("Վերծանման համար մուտքագրիր նույն գաղտնաբառը։");let p=s.trim().split(".");if(p.length!==4||p[0]!=="CL1")throw Error("AES կոդի ձևաչափը սխալ է։");let salt=fromB64(p[1]),iv=fromB64(p[2]),ct=fromB64(p[3]),key=await deriveKey(pw,salt),plain=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,ct);return dec.decode(plain)}
+function updateHint(){let m=$("method").value;$("shiftBox").classList.toggle("show",m==="caesar");$("passwordBox").classList.toggle("show",m==="aes");$("methodHint").textContent=({morse:"Աջակցում է լատինատառ և հայերեն տառերին։ Հայերեն Մորզեն կայքի ընդլայնում է, և տեքստի մեծատառ/փոքրատառը պահպանվում է։ Բառերի բաժանարարը՝ /։",binary:"Տեքստը փոխակերպվում է UTF-8 բայթերի, ուստի հայերենն էլ աջակցվում է։",base64:"Base64-ը կոդավորում է, ոչ թե գաղտնագրում․ այն գաղտնիություն չի ապահովում։",caesar:"Աջակցում է անգլերեն և հայերեն այբուբեններին։ Հայերենի 39 նիշերի համար տեղաշարժը կարող է լինել 0–38։",atbash:"Դասական փոխարինման կոդ․ աշխատում է անգլերեն այբուբենի վրա, իսկ հայերեն նիշերը պահպանում է անփոփոխ։",aes:"AES-256-GCM՝ PBKDF2 բանալու ստացման միջոցով։ Պահիր գաղտնաբառը․ այն հնարավոր չէ վերականգնել։"})[m]}
+$("method").addEventListener("change",updateHint);updateHint();
+async function run(mode){let s=$("message").value,m=$("method").value;if(!s.trim()){alert("Նախ մուտքագրիր հաղորդագրությունը։");return}try{let out;if(m==="morse")out=mode==="enc"?morseEncode(s):morseDecode(s);else if(m==="binary")out=mode==="enc"?binaryEncode(s):binaryDecode(s);else if(m==="base64")out=mode==="enc"?b64encode(s):b64decode(s);else if(m==="caesar"){let n=Number($("shift").value);if(!Number.isInteger(n)||n<0||n>38)throw Error("Caesar տեղաշարժը պետք է լինի 0–38 միջակայքում։");out=caesar(s,n,mode!=="enc")}else if(m==="atbash")out=atbash(s);else if(m==="aes")out=mode==="enc"?await aesEncrypt(s,$("password").value):await aesDecrypt(s,$("password").value);$("result").textContent=out||"(դատարկ արդյունք)";$("useResultBtn").disabled=false;countOp()}catch(e){alert("Սխալ․ "+(e.message||"Գործողությունը չհաջողվեց։"))}}
+$("encodeBtn").onclick=()=>run("enc");$("decodeBtn").onclick=()=>run("dec");
+$("useResultBtn").onclick=()=>{$("message").value=$("result").textContent;$("message").focus()};
+$("copyBtn").onclick=async()=>{try{await navigator.clipboard.writeText($("result").textContent);$("copyBtn").textContent="Պատճենված է ✓";setTimeout(()=>$("copyBtn").textContent="Պատճենել",1400)}catch{alert("Պատճենումը հասանելի չէ այս դիտարկչում։")}};
+$("pdfBtn").onclick=()=>{if(!$("result").textContent.trim()||$("result").textContent.includes("Արդյունքն այստեղ")){alert("Նախ ստացիր արդյունքը։");return}window.print()};
+$("clearBtn").onclick=()=>{$("message").value="";$("result").textContent="Արդյունքն այստեղ կհայտնվի…";$("password").value="";$("useResultBtn").disabled=true};
+$("loginBtn").onclick=()=>{if($("adminCode").value==="morze"){$("adminLogin").style.display="none";$("adminPanel").classList.add("open");$("visits").textContent=localStorage.getItem("cl_visits")||"0";$("operations").textContent=localStorage.getItem("cl_ops")||"0"}else alert("Գաղտնաբառը սխալ է։")};
+$("logoutBtn").onclick=()=>{$("adminPanel").classList.remove("open");$("adminLogin").style.display="block";$("adminCode").value=""};
+const tbody=$("morseTable").querySelector("tbody");Object.entries(morse).forEach(([k,v])=>{let tr=document.createElement("tr");tr.innerHTML=`<td>${k}</td><td>${v}</td>`;tbody.appendChild(tr)});
+const armenianMorseBody=$("armenianMorseTable").querySelector("tbody");Object.entries(armenianMorse).forEach(([k,v])=>{let tr=document.createElement("tr");tr.innerHTML=`<td>${k}</td><td>${v}</td>`;armenianMorseBody.appendChild(tr)});
+const bt=$("binaryTable").querySelector("tbody");for(let c of alphabet){let n=c.charCodeAt(0),tr=document.createElement("tr");tr.innerHTML=`<td>${c}</td><td>${n}</td><td>${n.toString(2).padStart(8,"0")}</td>`;bt.appendChild(tr)}
+let idx=0,slides=[...document.querySelectorAll(".slide")],dots=[...document.querySelectorAll(".dots button")];function show(i){idx=i;slides.forEach((s,j)=>s.classList.toggle("active",j===i));dots.forEach((d,j)=>d.classList.toggle("on",j===i))}dots.forEach((d,i)=>d.onclick=()=>show(i));setInterval(()=>show((idx+1)%slides.length),5500);
+$("menuBtn").onclick=()=>$("navlinks").classList.toggle("open");document.querySelectorAll(".navlinks a").forEach(a=>a.onclick=()=>$("navlinks").classList.remove("open"));
+</script>
+</body></html>
